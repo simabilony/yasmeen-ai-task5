@@ -1,0 +1,624 @@
+{
+	"info": {
+		"_postman_id": "yasmeen-ai-task6",
+		"name": "نظام إدارة المشاريع والمهام - Task 6",
+		"description": "REST API متكامل لإدارة المشاريع والمهام مع صلاحيات متعددة، تعليقات، متابعة، وإشعارات",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "🔐 المصادقة",
+			"item": [
+				{
+					"name": "الحصول على توكن الوصول",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"password\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/token/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "token", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تجديد التوكن",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/token/refresh/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "token", "refresh", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📋 المشاريع",
+			"item": [
+				{
+					"name": "قائمة المشاريع",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "إنشاء مشروع جديد",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"مشروع جديد\",\n    \"description\": \"وصف المشروع الجديد\",\n    \"members\": [2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تفاصيل المشروع",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تحديث المشروع",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"مشروع محدث\",\n    \"description\": \"وصف محدث للمشروع\",\n    \"members\": [2, 3, 4]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "إضافة عضو للمشروع",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user_id\": 5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/projects/{{project_id}}/add_member/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "{{project_id}}", "add_member", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "مشاريعي (كمدير)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/projects/my_projects/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "projects", "my_projects", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "✅ المهام",
+			"item": [
+				{
+					"name": "قائمة المهام",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "إنشاء مهمة جديدة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"مهمة جديدة\",\n    \"description\": \"وصف المهمة الجديدة\",\n    \"project\": {{project_id}},\n    \"assignee\": 2,\n    \"priority\": \"high\",\n    \"due_date\": \"2024-01-15T10:00:00Z\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تفاصيل المهمة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "{{task_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تحديث المهمة",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"مهمة محدثة\",\n    \"description\": \"وصف محدث للمهمة\",\n    \"status\": \"in_progress\",\n    \"priority\": \"urgent\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "{{task_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "مهامي المكلفة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/my_tasks/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "my_tasks", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "المهام المتأخرة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/overdue_tasks/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "overdue_tasks", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تثبيت مهمة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/{{task_id}}/pin_task/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "{{task_id}}", "pin_task", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "👥 متابعة المهام",
+			"item": [
+				{
+					"name": "متابعة مهمة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"task\": {{task_id}}\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/tasks/followers/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "followers", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "مهامي المتابعة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/tasks/followers/my_followed_tasks/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "tasks", "followers", "my_followed_tasks", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "💬 التعليقات",
+			"item": [
+				{
+					"name": "قائمة التعليقات",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/comments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "comments", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "إضافة تعليق",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"تعليق جديد على المهمة\",\n    \"task\": {{task_id}}\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comments/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "comments", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تحديث تعليق",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"content\": \"تعليق محدث\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/comments/{{comment_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "comments", "{{comment_id}}", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "🔔 الإشعارات",
+			"item": [
+				{
+					"name": "قائمة الإشعارات",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تحديد إشعار كمقروء",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/{{notification_id}}/mark_as_read/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "{{notification_id}}", "mark_as_read", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "تحديد جميع الإشعارات كمقروءة",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/mark_all_as_read/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "mark_all_as_read", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "عدد الإشعارات غير المقروءة",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/unread_count/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "unread_count", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "📊 سجلات المهام",
+			"item": [
+				{
+					"name": "سجلات التغييرات",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{access_token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/notifications/logs/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "notifications", "logs", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refresh_token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "project_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "task_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "comment_id",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "notification_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+} 
